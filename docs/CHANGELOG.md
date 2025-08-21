@@ -1,5 +1,39 @@
 # 📝 변경 이력 (Changelog)
 
+## [2.1.0] - 2024-08-21
+
+### 🎨 UI/UX 개선 및 배포 수정
+
+#### ✨ 새로운 기능
+- **중앙 정렬 레이아웃**
+  - 최대 너비 1400px 제한
+  - 화면 중앙 정렬
+  - 그림자 효과로 깊이감 추가
+
+- **GitHub Actions 자동 배포**
+  - `.github/workflows/deploy.yml` 추가
+  - main 브랜치 푸시 시 자동 빌드 및 배포
+
+#### 🔧 개선사항
+- **스타일링 개선**
+  - 배경 그라데이션 효과
+  - 커스텀 스크롤바 디자인
+  - 포스트 그리드 중앙 정렬
+  - 반응형 디자인 최적화
+
+- **빌드 설정 분리**
+  - `vite.config.js`: 로컬 개발용
+  - `vite.config.prod.js`: GitHub Pages 배포용
+  - `build:gh-pages` 스크립트 추가
+
+#### 🐛 버그 수정
+- GitHub Pages 404 오류 해결
+- index.html 경로 문제 수정
+- MIME type 오류 해결
+- terser 의존성 추가
+
+---
+
 ## [2.0.0] - 2024-08-21
 
 ### 🎉 Major Release - 전체 아키텍처 개선
