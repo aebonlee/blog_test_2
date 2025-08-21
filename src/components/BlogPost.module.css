@@ -1,9 +1,9 @@
 .blogPost {
   background: white;
-  border-radius: 12px;
+  border-radius: var(--border-radius);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
-  margin-bottom: 1rem;
+  padding: var(--grid-gap);
+  margin-bottom: var(--grid-gap);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -14,7 +14,7 @@
 
 .blogPost h2 {
   color: #2c3e50;
-  font-size: 1.5rem;
+  font-size: var(--font-size-h2);
   margin-bottom: 0.75rem;
   line-height: 1.4;
 }
@@ -95,10 +95,24 @@
   padding: 2rem;
 }
 
-@media (max-width: 768px) {
+/* 태블릿 (1024px ~ 1599px) */
+@media (min-width: 1024px) and (max-width: 1599px) {
   .blogPost {
-    margin: 0.5rem;
+    padding: 1.25rem;
+  }
+  
+  .postActions .btn {
+    padding: 0.5rem 0.875rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* 모바일 (1023px 이하) */
+@media (max-width: 1023px) {
+  .blogPost {
+    margin: 0.5rem 0;
     padding: 1rem;
+    border-radius: var(--border-radius);
   }
   
   .blogPost h2 {
@@ -108,5 +122,28 @@
   .postMeta {
     flex-direction: column;
     gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .postBody {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  
+  .postActions {
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  .postActions .btn {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+  
+  .noPost {
+    font-size: 0.9rem;
+    padding: 1.5rem;
   }
 }

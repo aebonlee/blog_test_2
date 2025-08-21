@@ -11,6 +11,15 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* 반응형 CSS 변수 */
+  --container-max-width: 1400px;
+  --container-padding: 2rem;
+  --grid-gap: 1.5rem;
+  --font-size-base: 1rem;
+  --font-size-h1: 2.5rem;
+  --font-size-h2: 1.5rem;
+  --border-radius: 12px;
 }
 
 * {
@@ -80,19 +89,61 @@ button {
   background: linear-gradient(135deg, #5a67d8 0%, #6b4697 100%);
 }
 
-/* 반응형 디자인 */
-@media (max-width: 1440px) {
-  .App {
-    max-width: 100%;
+/* 반응형 디자인 - 브레이크포인트별 CSS 변수 조정 */
+
+/* 데스크톱 (1600px 이상) - 기본값 사용 */
+@media (min-width: 1600px) {
+  :root {
+    --container-max-width: 1400px;
+    --container-padding: 2.5rem;
+    --grid-gap: 2rem;
+    --font-size-h1: 3rem;
+    --font-size-h2: 1.75rem;
   }
 }
 
-@media (max-width: 768px) {
-  body {
-    padding: 0;
+/* 태블릿 (1024px ~ 1599px) */
+@media (min-width: 1024px) and (max-width: 1599px) {
+  :root {
+    --container-max-width: 900px;
+    --container-padding: 1.5rem;
+    --grid-gap: 1.5rem;
+    --font-size-h1: 2.25rem;
+    --font-size-h2: 1.5rem;
   }
-  
+
+  body {
+    padding: 0 1rem;
+  }
+}
+
+/* 모바일 (1023px 이하) */
+@media (max-width: 1023px) {
+  :root {
+    --container-max-width: 100%;
+    --container-padding: 1rem;
+    --grid-gap: 1rem;
+    --font-size-base: 0.9rem;
+    --font-size-h1: 1.75rem;
+    --font-size-h2: 1.25rem;
+    --border-radius: 8px;
+  }
+
+  body {
+    padding: 0 0.5rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  }
+
   #root {
-    padding: 0;
+    min-height: 100vh;
+  }
+
+  /* 모바일에서 스크롤바 숨기기 */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(102, 126, 234, 0.6);
   }
 }

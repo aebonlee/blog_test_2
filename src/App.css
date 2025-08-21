@@ -7,7 +7,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  max-width: 1400px;
+  max-width: var(--container-max-width);
   margin: 0 auto;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
@@ -15,15 +15,16 @@
 .app-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 2rem;
+  padding: var(--container-padding);
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .app-header h1 {
   margin: 0;
-  font-size: 2.5rem;
+  font-size: var(--font-size-h1);
   margin-bottom: 0.5rem;
+  font-weight: 700;
 }
 
 .app-header p {
@@ -34,20 +35,21 @@
 
 main {
   flex: 1;
-  padding: 2rem;
+  padding: var(--container-padding);
   background-color: #f7f8fc;
 }
 
 .blog-container {
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
 }
 
 .blog-actions {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  gap: var(--grid-gap);
+  margin-bottom: var(--container-padding);
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .btn {
@@ -101,20 +103,20 @@ main {
 
 .posts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--grid-gap);
+  margin-top: var(--container-padding);
   justify-items: center;
 }
 
 .post-card {
   background: white;
-  border-radius: 12px;
-  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  padding: var(--grid-gap);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   width: 100%;
-  max-width: 400px;
+  height: fit-content;
 }
 
 .post-card:hover {
@@ -203,7 +205,7 @@ main {
 .app-footer {
   background: #2d3748;
   color: white;
-  padding: 2rem;
+  padding: var(--container-padding);
   text-align: center;
 }
 
@@ -214,7 +216,7 @@ main {
 
 .tech-stack {
   display: flex;
-  gap: 1rem;
+  gap: var(--grid-gap);
   justify-content: center;
   flex-wrap: wrap;
 }
@@ -224,4 +226,69 @@ main {
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-size: 0.875rem;
+}
+
+/* 반응형 그리드 */
+/* 태블릿 (1024px ~ 1599px) */
+@media (min-width: 1024px) and (max-width: 1599px) {
+  .posts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .app-header p {
+    font-size: 1rem;
+  }
+
+  .btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* 모바일 (1023px 이하) */
+@media (max-width: 1023px) {
+  .App {
+    box-shadow: none;
+  }
+
+  .posts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn {
+    padding: 0.75rem 1.5rem;
+    min-width: 200px;
+  }
+
+  .app-header p {
+    font-size: 0.95rem;
+  }
+
+  .post-card {
+    max-width: none;
+  }
+
+  .post-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .post-actions .btn {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .tech-stack {
+    gap: 0.75rem;
+  }
+
+  .tech-stack span {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+  }
 }
