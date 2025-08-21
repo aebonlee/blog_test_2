@@ -13,10 +13,17 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: undefined,
-        // 파일 확장자를 .js로 강제
+        // 파일 확장자를 .js로 강제 (GitHub Pages 호환성)
         entryFileNames: 'assets/[name]-[hash].js',
         chunkFileNames: 'assets/[name]-[hash].js',
-        assetFileNames: 'assets/[name]-[hash].[ext]'
+        assetFileNames: (assetInfo) => {
+          const info = assetInfo.name.split('.');
+          const extType = info[info.length - 1];
+          if (/\.(css)$/.test(assetInfo.name)) {
+            return `assets/[name]-[hash].${extType}`;
+          }
+          return `assets/[name]-[hash].[ext]`;
+        }
       }
     }
   },
