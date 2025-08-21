@@ -1,8 +1,9 @@
 {
   "name": "blog-axios",
   "private": true,
-  "version": "0.0.0",
+  "version": "2.2.0",
   "type": "module",
+  "homepage": "https://aebonlee.github.io/blog_test_2/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
