@@ -9,7 +9,7 @@ function App() {
       <div className="App">
         <header className="app-header">
           <h1>📝 Axios 블로그 애플리케이션</h1>
-          <p>개선된 아키텍처로 구현된 CRUD 데모</p>
+          <p>개선된 아키텍처로 구현된 CRUD 데모 v2.2.0</p>
         </header>
         <main>
           <BlogList />
