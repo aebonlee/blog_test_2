@@ -1,5 +1,8 @@
 # 📝 Axios 블로그 애플리케이션
 
+**버전**: v2.2.0  
+**배포 URL**: https://aebonlee.github.io/blog_test_2/
+
 React와 Axios를 활용한 RESTful API 통신 데모 애플리케이션입니다. JSONPlaceholder API를 사용하여 CRUD(Create, Read, Update, Delete) 작업을 구현했습니다.
 
 ## 🚀 주요 기능
