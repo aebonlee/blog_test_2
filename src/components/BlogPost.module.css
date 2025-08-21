@@ -1,0 +1,112 @@
+.blogPost {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.blogPost:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.blogPost h2 {
+  color: #2c3e50;
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.postMeta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+.author {
+  padding: 0.25rem 0.5rem;
+  background-color: #e3f2fd;
+  color: #1565c0;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.postId {
+  padding: 0.25rem 0.5rem;
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.postBody {
+  color: #495057;
+  line-height: 1.6;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.postActions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.postActions .btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.postActions .btnEdit {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.postActions .btnEdit:hover {
+  background-color: #ffb300;
+  transform: translateY(-1px);
+}
+
+.postActions .btnDelete {
+  background-color: #dc3545;
+  color: white;
+}
+
+.postActions .btnDelete:hover {
+  background-color: #c82333;
+  transform: translateY(-1px);
+}
+
+.noPost {
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  padding: 2rem;
+}
+
+@media (max-width: 768px) {
+  .blogPost {
+    margin: 0.5rem;
+    padding: 1rem;
+  }
+  
+  .blogPost h2 {
+    font-size: 1.25rem;
+  }
+  
+  .postMeta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

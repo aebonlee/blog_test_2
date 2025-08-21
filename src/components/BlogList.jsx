@@ -1,91 +1,84 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 import BlogPost from './BlogPost';
+import LoadingSpinner from './LoadingSpinner';
+import ErrorMessage from './ErrorMessage';
+import { useBlogs, useSinglePost } from '../hooks/useBlogs';
 
-function BlogList() {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [selectedPost, setSelectedPost] = useState(null);
+const BlogList = memo(() => {
+  const { 
+    posts, 
+    loading, 
+    error, 
+    fetchPosts, 
+    createPost, 
+    updatePost, 
+    deletePost,
+    clearError 
+  } = useBlogs();
 
-  useEffect(() => {
-    fetchPosts();
-  }, []);
+  const {
+    selectedPost,
+    loading: singlePostLoading,
+    error: singlePostError,
+    fetchPost,
+    clearSelectedPost,
+  } = useSinglePost();
 
-  const fetchPosts = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
-      setPosts(response.data.slice(0, 10));
-      setError(null);
-    } catch (err) {
-      setError('포스트를 불러오는데 실패했습니다.');
-      console.error('Error fetching posts:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchSinglePost = async (postId) => {
-    try {
-      const response = await axios.get(`https://jsonplaceholder.typicode.com/posts/${postId}`);
-      setSelectedPost(response.data);
-    } catch (err) {
-      console.error('Error fetching single post:', err);
-    }
-  };
-
-  const createPost = async () => {
-    try {
-      const newPost = {
-        title: '새로운 포스트',
-        body: '이것은 axios POST 요청으로 생성된 새 포스트입니다.',
-        userId: 1
-      };
-      
-      const response = await axios.post('https://jsonplaceholder.typicode.com/posts', newPost);
-      console.log('새 포스트 생성됨:', response.data);
+  const handleCreatePost = async () => {
+    const newPostData = {
+      title: '새로운 포스트',
+      body: '이것은 개선된 API 서비스를 통해 생성된 새 포스트입니다.',
+      userId: 1
+    };
+    
+    const result = await createPost(newPostData);
+    if (result.success) {
       alert('새 포스트가 성공적으로 생성되었습니다! (가상 API이므로 실제로 저장되지는 않습니다)');
-    } catch (err) {
-      console.error('Error creating post:', err);
     }
   };
 
-  const updatePost = async (postId) => {
-    try {
-      const updatedPost = {
-        id: postId,
-        title: '수정된 포스트 제목',
-        body: '이것은 axios PUT 요청으로 수정된 포스트입니다.',
-        userId: 1
-      };
-      
-      const response = await axios.put(`https://jsonplaceholder.typicode.com/posts/${postId}`, updatedPost);
-      console.log('포스트 수정됨:', response.data);
+  const handleUpdatePost = async (postId) => {
+    const updatedData = {
+      id: postId,
+      title: '수정된 포스트 제목',
+      body: '이것은 개선된 API 서비스를 통해 수정된 포스트입니다.',
+      userId: 1
+    };
+    
+    const result = await updatePost(postId, updatedData);
+    if (result.success) {
       alert(`포스트 #${postId}가 수정되었습니다! (가상 API이므로 실제로 저장되지는 않습니다)`);
-    } catch (err) {
-      console.error('Error updating post:', err);
     }
   };
 
-  const deletePost = async (postId) => {
-    try {
-      await axios.delete(`https://jsonplaceholder.typicode.com/posts/${postId}`);
-      console.log(`포스트 #${postId} 삭제됨`);
-      alert(`포스트 #${postId}가 삭제되었습니다! (가상 API이므로 실제로 삭제되지는 않습니다)`);
-      setPosts(posts.filter(post => post.id !== postId));
-    } catch (err) {
-      console.error('Error deleting post:', err);
+  const handleDeletePost = async (postId) => {
+    if (window.confirm(`포스트 #${postId}를 삭제하시겠습니까?`)) {
+      const result = await deletePost(postId);
+      if (result.success) {
+        alert(`포스트 #${postId}가 삭제되었습니다! (가상 API이므로 실제로 삭제되지는 않습니다)`);
+      }
     }
   };
 
-  if (loading) return <div className="loading">포스트를 불러오는 중...</div>;
-  if (error) return <div className="error">{error}</div>;
+  if (loading) {
+    return <LoadingSpinner message="포스트를 불러오는 중..." />;
+  }
+
+  if (error) {
+    return (
+      <ErrorMessage 
+        message={error} 
+        onRetry={fetchPosts}
+        onDismiss={clearError}
+      />
+    );
+  }
 
   return (
     <div className="blog-container">
       <div className="blog-actions">
-        <button onClick={createPost} className="btn btn-create">
+        <button onClick={handleCreatePost} className="btn btn-create">
           새 포스트 생성 (POST)
         </button>
         <button onClick={fetchPosts} className="btn btn-refresh">
@@ -96,8 +89,10 @@ function BlogList() {
       {selectedPost && (
         <div className="selected-post">
           <h3>선택된 포스트 상세정보</h3>
-          <BlogPost post={selectedPost} />
-          <button onClick={() => setSelectedPost(null)} className="btn btn-close">
+          {singlePostLoading && <LoadingSpinner size="small" />}
+          {singlePostError && <ErrorMessage message={singlePostError} type="warning" />}
+          {!singlePostLoading && !singlePostError && <BlogPost post={selectedPost} />}
+          <button onClick={clearSelectedPost} className="btn btn-close">
             닫기
           </button>
         </div>
@@ -105,34 +100,63 @@ function BlogList() {
 
       <div className="posts-grid">
         {posts.map(post => (
-          <div key={post.id} className="post-card">
-            <h3>{post.title}</h3>
-            <p>{post.body.substring(0, 100)}...</p>
-            <div className="post-actions">
-              <button 
-                onClick={() => fetchSinglePost(post.id)} 
-                className="btn btn-view"
-              >
-                상세보기
-              </button>
-              <button 
-                onClick={() => updatePost(post.id)} 
-                className="btn btn-edit"
-              >
-                수정 (PUT)
-              </button>
-              <button 
-                onClick={() => deletePost(post.id)} 
-                className="btn btn-delete"
-              >
-                삭제 (DELETE)
-              </button>
-            </div>
-          </div>
+          <PostCard
+            key={post.id}
+            post={post}
+            onView={fetchPost}
+            onEdit={handleUpdatePost}
+            onDelete={handleDeletePost}
+          />
         ))}
       </div>
     </div>
   );
-}
+});
+
+// PostCard 컴포넌트를 분리하여 재사용성 향상
+const PostCard = memo(({ post, onView, onEdit, onDelete }) => (
+  <div className="post-card">
+    <h3>{post.title}</h3>
+    <p>{post.body.substring(0, 100)}...</p>
+    <div className="post-actions">
+      <button 
+        onClick={() => onView(post.id)} 
+        className="btn btn-view"
+        aria-label={`포스트 ${post.id} 상세보기`}
+      >
+        상세보기
+      </button>
+      <button 
+        onClick={() => onEdit(post.id)} 
+        className="btn btn-edit"
+        aria-label={`포스트 ${post.id} 수정`}
+      >
+        수정 (PUT)
+      </button>
+      <button 
+        onClick={() => onDelete(post.id)} 
+        className="btn btn-delete"
+        aria-label={`포스트 ${post.id} 삭제`}
+      >
+        삭제 (DELETE)
+      </button>
+    </div>
+  </div>
+));
+
+PostCard.propTypes = {
+  post: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    body: PropTypes.string.isRequired,
+  }).isRequired,
+  onView: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+};
+
+PostCard.displayName = 'PostCard';
+
+BlogList.displayName = 'BlogList';
 
 export default BlogList;
