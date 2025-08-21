@@ -8,15 +8,15 @@
  */
 
 export const BREAKPOINTS = {
-  // 픽셀 값
-  DESKTOP: 1600,
-  TABLET: 1024,
-  MOBILE_MAX: 1023,
+  // 픽셀 값 - 더 실용적인 브레이크포인트로 수정
+  DESKTOP: 1200,  // 1600px → 1200px (대부분의 데스크톱 화면)
+  TABLET: 768,    // 1024px → 768px (표준 태블릿 크기)
+  MOBILE_MAX: 767, // 1023px → 767px (모바일 최대 크기)
   
   // CSS 미디어 쿼리 문자열
-  DESKTOP_UP: `(min-width: 1600px)`,
-  TABLET_ONLY: `(min-width: 1024px) and (max-width: 1599px)`,
-  MOBILE_DOWN: `(max-width: 1023px)`,
+  DESKTOP_UP: `(min-width: 1200px)`,
+  TABLET_ONLY: `(min-width: 768px) and (max-width: 1199px)`,
+  MOBILE_DOWN: `(max-width: 767px)`,
   
   // 컨테이너 최대 너비
   CONTAINER: {
